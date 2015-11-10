@@ -1,0 +1,20 @@
+{
+  "name": "deeq",
+  "version": "1.0.0",
+  "description": "ES6 Map/Set compatible deepEqual function",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "assert",
+    "deepEqual",
+    "Map",
+    "Set"
+  ],
+  "author": "Teppei Sato <teppeis@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
+}
