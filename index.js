@@ -22,6 +22,10 @@ function deeq(actual, expected, strict) {
            actual.lastIndex === expected.lastIndex &&
            actual.ignoreCase === expected.ignoreCase;
 
+  } else if (isSet(actual) && isSet(expected)) {
+    return actual.size === expected.size &&
+           deeq(setToArray(actual), setToArray(expected), strict);
+
   } else if (isMap(actual) && isMap(expected)) {
     return actual.size === expected.size &&
            deeq(mapToArray(actual), mapToArray(expected), strict);
@@ -43,12 +47,24 @@ function deeq(actual, expected, strict) {
   }
 }
 
+function isSet(object) {
+  return Object.prototype.toString.call(object) == '[object Set]';
+}
+
 function isMap(object) {
   return Object.prototype.toString.call(object) == '[object Map]';
 }
 
 function isArguments(object) {
   return Object.prototype.toString.call(object) == '[object Arguments]';
+}
+
+function setToArray(set) {
+  var arr = [];
+  set.forEach(function(value) {
+    arr.push(value);
+  });
+  return arr;
 }
 
 function mapToArray(map) {

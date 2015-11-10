@@ -2,6 +2,26 @@ var assert = require('assert');
 var deeq = require('../');
 
 describe('deeq', () => {
+  context('Set', () => {
+    it('equals', () => {
+      assert(deeq(new Set(), new Set()));
+      assert(deeq(new Set([1]), new Set([1])));
+      assert(deeq(new Set([1, 2]), new Set([1, 2])));
+    });
+    it('different size', () => {
+      assert(!deeq(new Set([1]), new Set()));
+    });
+    it('different value', () => {
+      assert(!deeq(new Set([1]), new Set([2])));
+    });
+    it('not strict', () => {
+      assert(deeq(new Set([1]), new Set(['1'])));
+    });
+    it('strict', () => {
+      assert(!deeq(new Set([1]), new Set(['1']), true));
+    });
+  });
+
   context('Map', () => {
     it('equals', () => {
       assert(deeq(new Map(), new Map()));
