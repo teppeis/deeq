@@ -14,6 +14,9 @@ describe('deeq', () => {
     it('different value', () => {
       assert(!deeq(new Set([1]), new Set([2])));
     });
+    it('different order', () => {
+      assert(!deeq(new Set([1, 2]), new Set([2, 1])));
+    });
     it('not strict', () => {
       assert(deeq(new Set([1]), new Set(['1'])));
     });
@@ -36,6 +39,9 @@ describe('deeq', () => {
     });
     it('different key', () => {
       assert(!deeq(new Map([['a', 1]]), new Map([['b', 1]])));
+    });
+    it('different order', () => {
+      assert(!deeq(new Map([['a', 1], ['b', 2]]), new Map([['b', 2], ['a', 1]])));
     });
     it('not strict', () => {
       assert(deeq(new Map([['a', 1]]), new Map([['a', '1']])));
