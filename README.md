@@ -1,7 +1,7 @@
 deeq
 ====
 
-ES6 Map/Set compatible deepEqual function
+deepEqual extended to support ES6 Map/Set
 
 ## Install
 

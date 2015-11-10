@@ -1,7 +1,10 @@
 {
   "name": "deeq",
   "version": "1.0.0",
-  "description": "ES6 Map/Set compatible deepEqual function",
+  "description": "deepEqual extended to support ES6 Map/Set",
+  "engines" : {
+    "node" : ">=4.0.0"
+  },
   "main": "index.js",
   "scripts": {
     "test": "mocha"
