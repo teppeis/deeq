@@ -22,6 +22,10 @@ function deeq(actual, expected, strict) {
            actual.lastIndex === expected.lastIndex &&
            actual.ignoreCase === expected.ignoreCase;
 
+  } else if (isMap(actual) && isMap(expected)) {
+    return actual.size === expected.size &&
+           deeq(mapToArray(actual), mapToArray(expected), strict);
+
   // 7.4. Other pairs that do not both pass typeof value == 'object',
   // equivalence is determined by ==.
   } else if ((actual === null || typeof actual !== 'object') &&
@@ -39,8 +43,20 @@ function deeq(actual, expected, strict) {
   }
 }
 
+function isMap(object) {
+  return Object.prototype.toString.call(object) == '[object Map]';
+}
+
 function isArguments(object) {
   return Object.prototype.toString.call(object) == '[object Arguments]';
+}
+
+function mapToArray(map) {
+  var arr = [];
+  map.forEach(function(value, key) {
+    arr.push([key, value]);
+  });
+  return arr;
 }
 
 function objEquiv(a, b, strict) {

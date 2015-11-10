@@ -2,6 +2,29 @@ var assert = require('assert');
 var deeq = require('../');
 
 describe('deeq', () => {
+  context('Map', () => {
+    it('equals', () => {
+      assert(deeq(new Map(), new Map()));
+      assert(deeq(new Map([['a', 1]]), new Map([['a', 1]])));
+      assert(deeq(new Map([['a', 1], ['b', 2]]), new Map([['a', 1], ['b', 2]])));
+    });
+    it('different size', () => {
+      assert(!deeq(new Map([['a', 1]]), new Map()));
+    });
+    it('different value', () => {
+      assert(!deeq(new Map([['a', 1]]), new Map([['a', 2]])));
+    });
+    it('different key', () => {
+      assert(!deeq(new Map([['a', 1]]), new Map([['b', 1]])));
+    });
+    it('not strict', () => {
+      assert(deeq(new Map([['a', 1]]), new Map([['a', '1']])));
+    });
+    it('strict', () => {
+      assert(!deeq(new Map([['a', 1]]), new Map([['a', '1']]), true));
+    });
+  });
+
   context('Primitives', () => {
     it('same', () => {
       assert(deeq(1, 1));
