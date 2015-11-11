@@ -40,13 +40,38 @@ describe('deeq', () => {
   });
   describe('#restore', () => {
     it('restores original assert', () => {
+      // does not throw
+      assert.deepEqual(new Set([1]), new Set([2]));
+      assert.deepStrictEqual(new Set([1]), new Set(['1'], true));
+
       deeq.inject();
       assert.throws(() => {
         assert.deepEqual(new Set([1]), new Set([2]));
       });
+      assert.throws(() => {
+        assert.deepStrictEqual(new Set([1]), new Set(['1'], true));
+      });
+
       deeq.restore();
       // does not throw
       assert.deepEqual(new Set([1]), new Set([2]));
+      assert.deepStrictEqual(new Set([1]), new Set(['1'], true));
+    });
+
+    it('restores original assert after inject twice', () => {
+      deeq.inject();
+      deeq.inject();
+      assert.throws(() => {
+        assert.deepEqual(new Set([1]), new Set([2]));
+      });
+      assert.throws(() => {
+        assert.deepStrictEqual(new Set([1]), new Set(['1'], true));
+      });
+
+      deeq.restore();
+      // does not throw
+      assert.deepEqual(new Set([1]), new Set([2]));
+      assert.deepStrictEqual(new Set([1]), new Set(['1'], true));
     });
   });
 });

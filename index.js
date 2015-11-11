@@ -119,13 +119,17 @@ function objEquiv(a, b, strict) {
   return true;
 }
 
-let originalDeepEqual;
-let originalDeepStrictEqual;
+const DEEP_EQUAL_KEY = Symbol('deepEqual');
+const DEEP_STRICT_EQUAL_KEY = Symbol('deepStrictEqual');
 
 deeq.inject = function(assertToInject) {
   let assert = assertToInject || originalAssert;
-  originalDeepEqual = assert.deepEqual;
-  originalDeepStrictEqual = assert.deepStrictEqual;
+  if (!assert[DEEP_EQUAL_KEY]) {
+    assert[DEEP_EQUAL_KEY] = assert.deepEqual;
+  }
+  if (!assert[DEEP_STRICT_EQUAL_KEY]) {
+    assert[DEEP_STRICT_EQUAL_KEY] = assert.deepStrictEqual;
+  }
   assert.deepEqual = function deepEqual(actual, expected, message) {
     if (!deeq(actual, expected, false)) {
       assert.fail(actual, expected, message, 'deepEqual', assert.deepEqual);
@@ -141,11 +145,13 @@ deeq.inject = function(assertToInject) {
 
 deeq.restore = function(injectedAssert) {
   let assert = injectedAssert || originalAssert;
-  if (originalDeepEqual) {
-    assert.deepEqual = originalDeepEqual;
+  if (assert[DEEP_EQUAL_KEY]) {
+    assert.deepEqual = assert[DEEP_EQUAL_KEY];
+    delete assert[DEEP_EQUAL_KEY];
   }
-  if (originalDeepStrictEqual) {
-    assert.deepStrictEqual = originalDeepStrictEqual;
+  if (assert[DEEP_STRICT_EQUAL_KEY]) {
+    assert.deepStrictEqual = assert[DEEP_STRICT_EQUAL_KEY];
+    delete assert[DEEP_STRICT_EQUAL_KEY];
   }
 };
 
