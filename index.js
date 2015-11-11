@@ -1,4 +1,5 @@
 var util = require('util');
+var originalAssert = require('assert');
 
 function deeq(actual, expected, strict) {
   // 7.1. All identical values are equivalent, as determined by ===.
@@ -115,4 +116,35 @@ function objEquiv(a, b, strict) {
   }
   return true;
 }
+
+var originalDeepEqual;
+var originalDeepStrictEqual;
+
+deeq.inject = function(assertToInject) {
+  var assert = assertToInject || originalAssert;
+  originalDeepEqual = assert.deepEqual;
+  originalDeepStrictEqual = assert.deepStrictEqual;
+  assert.deepEqual = function deepEqual(actual, expected, message) {
+    if (!deeq(actual, expected, false)) {
+      assert.fail(actual, expected, message, 'deepEqual', assert.deepEqual);
+    }
+  };
+
+  assert.deepStrictEqual = function deepStrictEqual(actual, expected, message) {
+    if (!deeq(actual, expected, true)) {
+      assert.fail(actual, expected, message, 'deepStrictEqual', assert.deepStrictEqual);
+    }
+  };
+};
+
+deeq.restore = function(injectedAssert) {
+  var assert = injectedAssert || originalAssert;
+  if (originalDeepEqual) {
+    assert.deepEqual = originalDeepEqual;
+  }
+  if (originalDeepStrictEqual) {
+    assert.deepStrictEqual = originalDeepStrictEqual;
+  }
+};
+
 module.exports = deeq;
