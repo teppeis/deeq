@@ -16,12 +16,6 @@ describe('ES6 Set', () => {
     var s2 = new Set([2, 3, {a: 1, b: 2}]);
     assert.deepEqual(s1, s2);
   });
-
-  it('with assert(deeq())', () => {
-    var s1 = new Set([1]);
-    var s2 = new Set([2]);
-    assert(deeq(s1, {a: 1}));
-  });
 });
 
 function stringify(val) {
@@ -43,6 +37,7 @@ function typeFn(val) {
 function setToString(acc, set) {
   var values = [];
   set.forEach(value => {
+    // limitations: maxDepth and circular are ignored...
     values.push(stringify(value));
   });
   acc.push(`Set{${values.join(',')}}`);
