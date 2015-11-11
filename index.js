@@ -1,5 +1,7 @@
-var util = require('util');
-var originalAssert = require('assert');
+'use strict';
+
+let util = require('util');
+let originalAssert = require('assert');
 
 function deeq(actual, expected, strict) {
   // 7.1. All identical values are equivalent, as determined by ===.
@@ -61,7 +63,7 @@ function isArguments(object) {
 }
 
 function setToArray(set) {
-  var arr = [];
+  let arr = [];
   set.forEach(function(value) {
     arr.push(value);
   });
@@ -69,7 +71,7 @@ function setToArray(set) {
 }
 
 function mapToArray(map) {
-  var arr = [];
+  let arr = [];
   map.forEach(function(value, key) {
     arr.push([key, value]);
   });
@@ -84,7 +86,7 @@ function objEquiv(a, b, strict) {
     return a === b;
   if (strict && Object.getPrototypeOf(a) !== Object.getPrototypeOf(b))
     return false;
-  var aIsArgs = isArguments(a),
+  let aIsArgs = isArguments(a),
       bIsArgs = isArguments(b);
   if ((aIsArgs && !bIsArgs) || (!aIsArgs && bIsArgs))
     return false;
@@ -93,7 +95,7 @@ function objEquiv(a, b, strict) {
     b = pSlice.call(b);
     return deeq(a, b, strict);
   }
-  var ka = Object.keys(a),
+  let ka = Object.keys(a),
       kb = Object.keys(b),
       key, i;
   // having the same number of owned properties (keys incorporates
@@ -117,11 +119,11 @@ function objEquiv(a, b, strict) {
   return true;
 }
 
-var originalDeepEqual;
-var originalDeepStrictEqual;
+let originalDeepEqual;
+let originalDeepStrictEqual;
 
 deeq.inject = function(assertToInject) {
-  var assert = assertToInject || originalAssert;
+  let assert = assertToInject || originalAssert;
   originalDeepEqual = assert.deepEqual;
   originalDeepStrictEqual = assert.deepStrictEqual;
   assert.deepEqual = function deepEqual(actual, expected, message) {
@@ -138,7 +140,7 @@ deeq.inject = function(assertToInject) {
 };
 
 deeq.restore = function(injectedAssert) {
-  var assert = injectedAssert || originalAssert;
+  let assert = injectedAssert || originalAssert;
   if (originalDeepEqual) {
     assert.deepEqual = originalDeepEqual;
   }
