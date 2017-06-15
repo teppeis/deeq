@@ -1,6 +1,8 @@
 deeq [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Dependency Status][deps-image]][deps-url]
 ====
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/teppeis/deeq.svg)](https://greenkeeper.io/)
+
 deepEqual extended to support ES6 Map/Set
 
 ## Description
