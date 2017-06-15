@@ -18,6 +18,6 @@
   "author": "Teppei Sato <teppeis@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^2.3.3"
+    "mocha": "^3.4.2"
   }
 }
